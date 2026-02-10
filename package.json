@@ -1,0 +1,33 @@
+{
+  "name": "playwright-cucumber-pom-framework",
+  "version": "1.0.0",
+  "description": "Playwright framework with Cucumber BDD and Page Object Model",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js & npm run report",
+    "test:chrome": "cucumber-js --profile chrome & npm run report",
+    "test:firefox": "cucumber-js --profile firefox & npm run report",
+    "test:webkit": "cucumber-js --profile webkit & npm run report",
+    "test:parallel": "cucumber-js --parallel 2 & npm run report",
+    "test:tags": "cucumber-js --tags & npm run report",
+    "report": "node src/utils/reporter.js && start \"\" \"reports\\cucumber-report.html\"",
+    "postinstall": "npx playwright install"
+  },
+  "keywords": [
+    "playwright",
+    "cucumber",
+    "bdd",
+    "pom",
+    "automation"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.0.1",
+    "@playwright/test": "^1.40.0",
+    "cucumber-html-reporter": "^7.1.1",
+    "dotenv": "^16.3.1",
+    "multiple-cucumber-html-reporter": "^3.5.0"
+  }
+}
+
