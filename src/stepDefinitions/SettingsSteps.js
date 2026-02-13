@@ -9,10 +9,11 @@ Then('I should see following details in Profile drawer', async function (dataTab
   // hashes() returns an array like: [{Field: "Title", Value: "KAutomation"}, ...]
   const profileData = dataTable.hashes();
 
-  // Check if we have any dynamic values stored (phone number, department)
-  const hasDynamicValues = this.generatedPhoneNumber || this.generatedDepartment;
+  // Check if the data table contains <generated> placeholder
+  const hasGeneratedPlaceholder = profileData.some(row => row.Value === '<generated>');
   
-  if (hasDynamicValues) {
+  // Only use dynamic values if <generated> placeholder is present
+  if (hasGeneratedPlaceholder && (this.generatedPhoneNumber || this.generatedDepartment)) {
     // Use dynamic values verification
     const dynamicValues = {
       phoneNumber: this.generatedPhoneNumber,
@@ -37,34 +38,34 @@ Then('I should see {string} modal', async function (modalTitle) {
   await settingsPage.verifyModalVisible(modalTitle);
 });
 
-// Then('Email Address field should be disabled', async function () {
-//   const settingsPage = this.settingsPage || new SettingsPage(this.page);
-//   this.settingsPage = settingsPage;
-//   await settingsPage.verifyFieldDisabled('email');
-// });
-
 Then('I should see Email Address field disabled and value should be {string}', async function (expectedValue) {
   const settingsPage = this.settingsPage || new SettingsPage(this.page);
   this.settingsPage = settingsPage;
   await settingsPage.verifyFieldDisabledWithValue('Email Address', expectedValue);
 });
 
-Then('I should see User Role field disabled and value should be {string}', async function (expectedValue) {
+Then('I should see User Role field disabled with value {string}', async function (expectedValue) {
   const settingsPage = this.settingsPage || new SettingsPage(this.page);
   this.settingsPage = settingsPage;
   await settingsPage.verifyFieldDisabledWithValue('User Role', expectedValue);
 });
 
-Then('I should see User Role field value should be {string}', async function (expectedValue) {
+Then('I should see User Role field with value {string}', async function (expectedValue) {
   const settingsPage = this.settingsPage || new SettingsPage(this.page);
   this.settingsPage = settingsPage;
-  await settingsPage.verifyFieldDisabledWithValue('User Role', expectedValue);
+  await settingsPage.verifyFieldWithValue('User Role', expectedValue);
 });
 
 When('I select {string} as country in phone number dropdown', async function (countryCode) {
   const settingsPage = this.settingsPage || new SettingsPage(this.page);
   this.settingsPage = settingsPage;
   await settingsPage.selectCountryInPhoneDropdown(countryCode);
+});
+
+When('I select {string} as country in phone number dropdown on general settings screen', async function (countryCode) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  await settingsPage.selectCountryOnGeneralSettings(countryCode);
 });
 
 When('I enter Random number in the phone number field', async function () {
@@ -95,7 +96,7 @@ When('I enter {string} in department field', async function (departmentBase) {
   this.generatedDepartment = fullDepartment;
 });
 
-When('I click on {string} button on profile modal', async function (buttonText) {
+  When('I click on {string} button on modal', async function (buttonText) {
   const settingsPage = this.settingsPage || new SettingsPage(this.page);
   this.settingsPage = settingsPage;
   await settingsPage.clickModalButton(buttonText);
@@ -123,3 +124,93 @@ Then('the following overview metrics should be visible:', async function (dataTa
   // Verify all metrics are visible
   await settingsPage.verifyOverviewMetrics(metrics);
 });
+
+Then('I should see {string} Heading', async function (screenTitle) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  await settingsPage.verifyScreenTitle(screenTitle);
+});
+
+When('I click on Industry dropdown', async function () {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  await settingsPage.clickIndustryDropdown();
+});
+
+Then('I should see following industries in dropdown', async function (dataTable) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  
+  // Extract industry names from the data table (single column)
+  const industries = dataTable.raw().flat(); // Flatten the array to get all industry names
+  
+  // Verify all industries are visible in dropdown
+  await settingsPage.verifyIndustriesInDropdown(industries);
+});
+
+When('I select {string} as industry in dropdown', async function (industry) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  await settingsPage.selectIndustry(industry);
+});
+
+When('I enter {string} in organization email field', async function (emailBase) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  const fullEmail = await settingsPage.enterOrganizationEmailWithRandomNumber(emailBase);
+  // Store the generated email for later verification if needed
+  this.generatedOrgEmail = fullEmail;
+});
+
+When('I wait for {int} seconds', async function (seconds) {
+  await this.page.waitForTimeout(seconds * 1000);
+});
+
+When('I click on the {string} button', async function (buttonText) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  await settingsPage.clickButton(buttonText);
+});
+
+When('I click on {string} tab button', async function (tabName) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  await settingsPage.clickTabButton(tabName);
+});
+
+When('I click on {string} user', async function (userEmail) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  await settingsPage.clickUser(userEmail);
+});
+
+When('I click on {string} button on users screen', async function (buttonText) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  await settingsPage.clickButtonByText(buttonText);
+});
+
+When('I enter {string} in the full name field on modal', async function (fullName) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  await settingsPage.enterFullNameOnModal(fullName);
+});
+
+When('I enter {string} in the email field on modal', async function (email) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  await settingsPage.enterEmailOnModal(email);
+});
+
+When('I click on Add Role dropdown', async function () {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  await settingsPage.clickAddRoleDropdown();
+});
+
+When('I select {string} as role in dropdown', async function (role) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  await settingsPage.selectRole(role);
+});
+

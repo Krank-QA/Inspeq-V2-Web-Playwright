@@ -1,6 +1,6 @@
 Feature: Login
 
- Scenario: User should be Login with valid credentials
+  Scenario: User should be Login with valid credentials
     Given I navigate to the login page
     When I enter "kautomation@krank-automation.com" in the email field
     And I enter "Super@dmin1" in the password field
