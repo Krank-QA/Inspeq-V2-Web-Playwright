@@ -63,38 +63,38 @@ Feature: Profile and Organization Settings
         | Assets Inspected                   |
         | Sites Covered                      |
 
-  # Scenario: User should be able to Edit Organization General Settings
-  #   Given I navigate to the login page
-  #   When I enter "kautomation@krank-automation.com" in the email field
-  #   And I enter "Super@dmin1" in the password field
-  #   And I click on "Log in" button
-  #   Then I should see "Select Organizations" screen
-  #   When I click on "Automation Org" organization
-  #   And I click on "Continue" button
-  #   Then I should see "Dashboard" title screen
-  #   When I click on profile icon
-  #   And I click on "Organization Settings" option from the dropdown
-  #   Then I should see "Organization Details" Heading 
-  #   When I click on Industry dropdown
-  #   Then I should see following industries in dropdown
-  #       | Construction |
-  #       | Heavy Equipment & Machinery |
-  #       | Oil & Gas |
-  #       | Manufacturing |
-  #       | Healthcare |
-  #       | Restaurants |
-  #       | Residential & Real Estate |
-  #       | Facility Management |
-  #       | Transportation & Logistics |
-  #       | Automobile |
-  #       | Renewable Energy |
-  #       | Other |
-  #     When I select "Mining" as industry in dropdown
-  #     And I enter "TestAutomation@krank.com" in organization email field
-  #     And I select "PK" as country in phone number dropdown on general settings screen
-  #     And I enter Random number in the phone number field
-  #     And I click on "Update Details" button
-  #     Then I should see "Successfully updated organization" success message 
+  Scenario: User should be able to Edit Organization General Settings
+    Given I navigate to the login page
+    When I enter "kautomation@krank-automation.com" in the email field
+    And I enter "Super@dmin1" in the password field
+    And I click on "Log in" button
+    Then I should see "Select Organizations" screen
+    When I click on "Automation Org" organization
+    And I click on "Continue" button
+    Then I should see "Dashboard" title screen
+    When I click on profile icon
+    And I click on "Organization Settings" option from the dropdown
+    Then I should see "Organization Details" Heading 
+    When I click on Industry dropdown
+    Then I should see following industries in dropdown
+        | Construction |
+        | Heavy Equipment & Machinery |
+        | Oil & Gas |
+        | Manufacturing |
+        | Healthcare |
+        | Restaurants |
+        | Residential & Real Estate |
+        | Facility Management |
+        | Transportation & Logistics |
+        | Automobile |
+        | Renewable Energy |
+        | Other |
+      When I select "Mining" as industry in dropdown
+      And I enter "TestAutomation@krank.com" in organization email field
+      And I select "PK" as country in phone number dropdown on general settings screen
+      And I enter Random number in the phone number field on general settings screen
+      And I click on "Update Details" button
+      Then I should see "Successfully updated organization" success message 
 
   Scenario: User should be able to Add User in Organization Settings
     Given I navigate to the login page
@@ -197,3 +197,42 @@ Scenario: User should be able to Cancel User Invite in Organization Settings
         | Department       | <generated>                       |  
         | Phone Number     | <generated>                       |  
         | Role             | Admin                             | 
+
+
+# Scenario: User should be able to Add Custom Role in Organization Settings
+#     Given I navigate to the login page
+#     When I enter "kautomation@krank-automation.com" in the email field
+#     And I enter "Super@dmin1" in the password field
+#     And I click on "Log in" button
+#     Then I should see "Select Organizations" screen
+#     When I click on "Automation Org" organization
+#     And I click on "Continue" button
+#     Then I should see "Dashboard" title screen
+#     When I click on profile icon
+#     And I click on "Organization Settings" option from the dropdown
+#     Then I should see "Organization Details" Heading 
+#     When I click on "Role & Permissions" tab button
+#     And I click on "Add Custom Role" button on role & permissions screen
+#     Then I should see "Add Custom Role" modal
+#     And I should see following checkboxes unchecked
+#     View All Work Orders
+#     Create Work Orders
+#     Edit Work Orders
+#     View All Assets
+#     Create & Edit Assets
+#     Delete Assets
+#     View All Sites
+#     Create & Edit Sites
+#     Delete Sites
+#     View All Templates
+#     Create & Edit Templates
+#     Delete Templates
+#     View All Reports
+#     Create & Edit Reports
+#     Managee General Settings
+#     Manage Role & Permissions
+#     Manage Users
+#     Manage Biling & Subscription
+#     When I type "Automation Role" in Role Name field on modal
+    
+    

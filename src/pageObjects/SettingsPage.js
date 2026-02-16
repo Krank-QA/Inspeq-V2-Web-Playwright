@@ -141,10 +141,22 @@ class SettingsPage {
     const inputLocator = this.page.locator(`input[value="${expectedValue}"]`);
     await expect(inputLocator).toBeVisible();
     await expect(inputLocator).toHaveValue(expectedValue);
+  }  /**
+   * Selects a country on the general settings screen
+   * @param {string} countryCode - The country code (e.g., "PK", "US", "UK", "CA")
+   */
+  async selectCountryOnGeneralSettings(countryCode) {
+    await this.page.waitForTimeout(500);
+    
+    // Click the country selector button
+    const countrySelectorButton = this.page.locator("//button[@aria-label='Country selector']");
+    await countrySelectorButton.click();
+    
+    // Wait for the listbox to appear and select the country
+    await this.page.waitForTimeout(500);
+    const countryOption = this.page.locator(`//ul[@role='listbox']//li[@data-country='${countryCode.toLowerCase()}']`);
+    await countryOption.click();
   }
-
- 
-
 
   /**
    * Selects a country from the phone number dropdown
@@ -177,6 +189,34 @@ class SettingsPage {
     
     // Use more specific locator to target the phone input in the dialog
     const phoneInput = this.page.locator("(//div[@role='dialog']//input[@type='tel'])[1]");
+  
+    // Wait for input and focus
+    await phoneInput.waitFor({ state: 'visible' });
+    await phoneInput.click();
+  
+    // Move cursor to end of existing value (+92)
+    await phoneInput.press('End');
+  
+    // Type random digits digit by digit
+    await phoneInput.type(String(randomNumber), { delay: 50 });
+  
+    return `+92${randomNumber}`;
+  }
+
+  /**
+   * Enters a random phone number on general settings screen
+   * Phone number format: 10 digits starting with 33 (e.g., 3312345678)
+   * @returns {string} The generated phone number
+   */
+  async enterRandomPhoneNumberOnGeneralSettings() {
+    await this.page.waitForTimeout(500);
+    
+    // Generate a random 10-digit phone number that starts with 333
+    const remainingDigits = Math.floor(1000000 + Math.random() * 9000000); // 7 digits (1000000-9999999)
+    const randomNumber = `333${remainingDigits}`;
+    
+    // Use the phone input locator
+    const phoneInput = this.page.locator("//input[@type='tel']");
   
     // Wait for input and focus
     await phoneInput.waitFor({ state: 'visible' });
@@ -454,6 +494,40 @@ class SettingsPage {
     const roleOption = this.page.locator(`(//div[@role='option' and normalize-space()='${role}'])[2]`);
     await roleOption.click();
   }
+
+  /**
+   * Enters role name in the modal
+   * @param {string} roleName - The role name to enter
+   */
+  async enterRoleNameOnModal(roleName) {
+    await this.page.waitForTimeout(500);
+    const roleNameInput = this.page.locator("//input[@placeholder='Enter role name']");
+    await roleNameInput.fill(roleName);
+  }
+
+  /**
+   * Clicks on a checkbox by label text
+   * @param {string} labelText - The label text of the checkbox (e.g., "View Team KPIs")
+   */
+  async clickCheckboxByLabel(labelText) {
+    await this.page.waitForTimeout(500);
+    const checkbox = this.page.locator(`//label[.//span[normalize-space()='${labelText}']]//div[@data-part='control']`);
+    await checkbox.click();
+  }
+
+  /**
+   * Verifies that multiple checkboxes are unchecked
+   * @param {Array} checkboxLabels - Array of checkbox label texts to verify
+   */
+  async verifyCheckboxesUnchecked(checkboxLabels) {
+    await this.page.waitForTimeout(500);
+    
+    for (const label of checkboxLabels) {
+      const checkbox = this.page.locator(`//label[.//span[normalize-space()='${label}']]//div[@data-part='control' and @data-state='unchecked']`);
+      await expect(checkbox).toBeAttached();
+    }
+  }
+
 }
 
 module.exports = { SettingsPage };

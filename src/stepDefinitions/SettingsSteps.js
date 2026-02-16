@@ -76,6 +76,14 @@ When('I enter Random number in the phone number field', async function () {
   this.generatedPhoneNumber = generatedPhoneNumber;
 });
 
+When('I enter Random number in the phone number field on general settings screen', async function () {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  const generatedPhoneNumber = await settingsPage.enterRandomPhoneNumberOnGeneralSettings();
+  // Store the generated phone number for later verification if needed
+  this.generatedPhoneNumber = generatedPhoneNumber;
+});
+
 When('I click on Designation dropdown', async function () {
   const settingsPage = this.settingsPage || new SettingsPage(this.page);
   this.settingsPage = settingsPage;
@@ -212,5 +220,28 @@ When('I select {string} as role in dropdown', async function (role) {
   const settingsPage = this.settingsPage || new SettingsPage(this.page);
   this.settingsPage = settingsPage;
   await settingsPage.selectRole(role);
+});
+
+When('I type {string} in Role Name field on modal', async function (roleName) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  await settingsPage.enterRoleNameOnModal(roleName);
+});
+
+When('I click on {string} checkbox', async function (labelText) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  await settingsPage.clickCheckboxByLabel(labelText);
+});
+
+Then('I should see following checkboxes unchecked', async function (dataTable) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  
+  // Extract checkbox labels from the data table (single column)
+  const checkboxLabels = dataTable.raw().flat(); // Flatten the array to get all checkbox labels
+  
+  // Verify all checkboxes are unchecked
+  await settingsPage.verifyCheckboxesUnchecked(checkboxLabels);
 });
 
