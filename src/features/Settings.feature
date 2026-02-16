@@ -35,7 +35,6 @@ Feature: Profile and Organization Settings
         | Phone Number     | <generated>                       |  
         | Role             | Admin                             |
 
-
   Scenario: User should be able to view Performance Summary
     Given I navigate to the login page
     When I enter "kautomation@krank-automation.com" in the email field
@@ -133,7 +132,6 @@ Feature: Profile and Organization Settings
         | Department       | <generated>                       |  
         | Role             | Admin                             |
 
-
 Scenario: User should be able to Cancel User Invite in Organization Settings
     Given I navigate to the login page
     When I enter "kautomation@krank-automation.com" in the email field
@@ -198,7 +196,57 @@ Scenario: User should be able to Cancel User Invite in Organization Settings
         | Phone Number     | <generated>                       |  
         | Role             | Admin                             | 
 
+  Scenario: User should be able to deactivate User in Organization Settings
+    Given I navigate to the login page
+    When I enter "kautomation@krank-automation.com" in the email field
+    And I enter "Super@dmin1" in the password field
+    And I click on "Log in" button
+    Then I should see "Select Organizations" screen
+    When I click on "Automation Org" organization
+    And I click on "Continue" button
+    Then I should see "Dashboard" title screen
+    When I click on profile icon
+    And I click on "Organization Settings" option from the dropdown
+    Then I should see "Organization Details" Heading 
+    When I click on "Users" tab button
+    And I click on "shaheer.k@krank.com" user
+    Then I should see following details in Profile drawer
+        | Field      | Value                             |
+        | Title      | AutoTest User                     |  
+        | Full Name  | AutoTest User                     |  
+        | Email      | shaheer.k@krank.com               |  
+        | Role       | Admin                             |
+    When I click on "Deactivate User" button on profile drawer
+    Then I should see "Status updated successfully." success message 
+    And I should see "Inactive" status in profile drawer
+    When I click on "Mark as Active" button on profile drawer
+    Then I should see "User activated successfully." success message 
+    And I should see "Active" status in profile drawer
 
+
+ Scenario: User should be able to view usage details in Organization Settings
+    Given I navigate to the login page
+    When I enter "kautomation@krank-automation.com" in the email field
+    And I enter "Super@dmin1" in the password field
+    And I click on "Log in" button
+    Then I should see "Select Organizations" screen
+    When I click on "Automation Org" organization
+    And I click on "Continue" button
+    Then I should see "Dashboard" title screen
+    When I click on profile icon
+    And I click on "Organization Settings" option from the dropdown
+    Then I should see "Organization Details" Heading 
+    When I click on "Billing" tab button
+    Then I should see following usage details attributes
+        | Users |
+        | Work Orders and Submissions |  
+        | Remote Work Orders |  
+        | Templates |  
+        | AI Template |
+        | Assets | 
+        | Site |
+
+# Commented since there is no delete journey custom role
 # Scenario: User should be able to Add Custom Role in Organization Settings
 #     Given I navigate to the login page
 #     When I enter "kautomation@krank-automation.com" in the email field
@@ -215,24 +263,65 @@ Scenario: User should be able to Cancel User Invite in Organization Settings
 #     And I click on "Add Custom Role" button on role & permissions screen
 #     Then I should see "Add Custom Role" modal
 #     And I should see following checkboxes unchecked
-#     View All Work Orders
-#     Create Work Orders
-#     Edit Work Orders
-#     View All Assets
-#     Create & Edit Assets
-#     Delete Assets
-#     View All Sites
-#     Create & Edit Sites
-#     Delete Sites
-#     View All Templates
-#     Create & Edit Templates
-#     Delete Templates
-#     View All Reports
-#     Create & Edit Reports
-#     Managee General Settings
-#     Manage Role & Permissions
-#     Manage Users
-#     Manage Biling & Subscription
+#         | View Team KPIs |
+#         | View All Work Orders |
+#         | Create Work Orders |
+#         | Edit Work Orders |
+#         | View All Assets |
+#         | Create & Edit Assets |
+#         | Delete Assets |
+#         | View All Sites |
+#         | Create & Edit Sites |
+#         | Delete Sites |
+#         | View All Templates |
+#         | Create & Edit Templates |
+#         | Delete Templates |
+#         | View All Reports |
+#         | Create & Edit Reports |
+#         | Manage General Settings |
+#         | Manage Roles & Permissions |
+#         | Manage Users |
+#         | Manage Billing & Subscription |
 #     When I type "Automation Role" in Role Name field on modal
-    
-    
+#     And I click on following checkboxes
+#           | View Team KPIs |
+#         | View All Work Orders |
+#         | Create Work Orders |
+#         | Edit Work Orders |
+#         | View All Assets |
+#         | Create & Edit Assets |
+#         | Delete Assets |
+#         | View All Sites |
+#         | Create & Edit Sites |
+#         | Delete Sites |
+#         | View All Templates |
+#         | Create & Edit Templates |
+#         | Delete Templates |
+#         | View All Reports |
+#         | Create & Edit Reports |
+#         | Manage General Settings |
+#         | Manage Roles & Permissions |
+#         | Manage Users |
+#         | Manage Billing & Subscription |
+#     Then I should see following checkboxes checked
+#         | View Team KPIs |
+#         | View All Work Orders |
+#         | Create Work Orders |
+#         | Edit Work Orders |
+#         | View All Assets |
+#         | Create & Edit Assets |
+#         | Delete Assets |
+#         | View All Sites |
+#         | Create & Edit Sites |
+#         | Delete Sites |
+#         | View All Templates |
+#         | Create & Edit Templates |
+#         | Delete Templates |
+#         | View All Reports |
+#         | Create & Edit Reports |
+#         | Manage General Settings |
+#         | Manage Roles & Permissions |
+#         | Manage Users |
+#         | Manage Billing & Subscription |
+#     And I click on "Add Custom Role" button on Add Custom Role modal
+#     Then I should see "Successfully created role" success message 

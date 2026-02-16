@@ -198,6 +198,18 @@ When('I click on {string} button on users screen', async function (buttonText) {
   await settingsPage.clickButtonByText(buttonText);
 });
 
+When('I click on {string} button on role & permissions screen', async function (buttonText) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  await settingsPage.clickButtonByText(buttonText);
+});
+
+When('I click on {string} button on Add Custom Role modal', async function (buttonText) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  await settingsPage.clickButtonOnAddCustomRoleModal(buttonText);
+});
+
 When('I enter {string} in the full name field on modal', async function (fullName) {
   const settingsPage = this.settingsPage || new SettingsPage(this.page);
   this.settingsPage = settingsPage;
@@ -245,3 +257,41 @@ Then('I should see following checkboxes unchecked', async function (dataTable) {
   await settingsPage.verifyCheckboxesUnchecked(checkboxLabels);
 });
 
+When('I click on following checkboxes', async function (dataTable) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  
+  // Extract checkbox labels from the data table (single column)
+  const checkboxLabels = dataTable.raw().flat(); // Flatten the array to get all checkbox labels
+  
+  // Click all checkboxes
+  await settingsPage.clickMultipleCheckboxes(checkboxLabels);
+});
+
+Then('I should see following checkboxes checked', async function (dataTable) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  
+  // Extract checkbox labels from the data table (single column)
+  const checkboxLabels = dataTable.raw().flat(); // Flatten the array to get all checkbox labels
+  
+  // Verify all checkboxes are checked
+  await settingsPage.verifyCheckboxesChecked(checkboxLabels);
+});
+
+Then('I should see {string} status in profile drawer', async function (status) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  await settingsPage.verifyStatusInProfileDrawer(status);
+});
+
+Then('I should see following usage details attributes', async function (dataTable) {
+  const settingsPage = this.settingsPage || new SettingsPage(this.page);
+  this.settingsPage = settingsPage;
+  
+  // Extract attribute names from the data table (single column)
+  const attributes = dataTable.raw().flat(); // Flatten the array to get all attribute names
+  
+  // Verify all attributes are visible
+  await settingsPage.verifyUsageDetailsAttributes(attributes);
+});

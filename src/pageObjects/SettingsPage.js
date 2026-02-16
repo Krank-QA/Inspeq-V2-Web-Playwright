@@ -528,6 +528,69 @@ class SettingsPage {
     }
   }
 
+  /**
+   * Clicks on multiple checkboxes by their label texts
+   * @param {Array} checkboxLabels - Array of checkbox label texts to click
+   */
+  async clickMultipleCheckboxes(checkboxLabels) {
+    await this.page.waitForTimeout(500);
+    
+    for (const label of checkboxLabels) {
+      const checkbox = this.page.locator(`//label[.//span[normalize-space()='${label}']]//div[@data-part='control']`);
+      await checkbox.click();
+      await this.page.waitForTimeout(200); // Small delay between clicks
+    }
+  }
+
+  /**
+   * Verifies that multiple checkboxes are checked
+   * @param {Array} checkboxLabels - Array of checkbox label texts to verify
+   */
+  async verifyCheckboxesChecked(checkboxLabels) {
+    await this.page.waitForTimeout(500);
+    
+    for (const label of checkboxLabels) {
+      const checkbox = this.page.locator(`//label[.//span[normalize-space()='${label}']]//div[@data-part='control' and @data-state='checked']`);
+      await expect(checkbox).toBeAttached();
+    }
+  }
+
+  /**
+   * Clicks a button on the Add Custom Role modal
+   * @param {string} buttonText - The text of the button to click (e.g., "Add Custom Role")
+   */
+  async clickButtonOnAddCustomRoleModal(buttonText) {
+    await this.page.waitForTimeout(500);
+    const button = this.page.locator(`(//button[normalize-space()='${buttonText}'])[2]`);
+    await button.waitFor({ state: 'visible', timeout: 5000 });
+    await button.click();
+    await this.page.waitForTimeout(1000);
+  }
+
+  /**
+   * Verifies the status in profile drawer
+   * @param {string} status - The status to verify (e.g., "Active", "Inactive")
+   */
+  async verifyStatusInProfileDrawer(status) {
+    await this.page.waitForTimeout(500);
+    // Look for status within the profile drawer by finding it relative to any h6 title
+    const statusLocator = this.page.locator(`//h6/ancestor::div//div[normalize-space()='${status}']`).first();
+    await expect(statusLocator).toBeVisible();
+  }
+
+  /**
+   * Verifies that multiple usage details attributes are visible
+   * @param {Array} attributes - Array of attribute names to verify (e.g., "Users", "Work Orders")
+   */
+  async verifyUsageDetailsAttributes(attributes) {
+    await this.page.waitForTimeout(500);
+    
+    for (const attribute of attributes) {
+      const attributeLocator = this.page.locator(`//span[normalize-space()='${attribute}']`);
+      await expect(attributeLocator).toBeVisible();
+    }
+  }
+
 }
 
 module.exports = { SettingsPage };
